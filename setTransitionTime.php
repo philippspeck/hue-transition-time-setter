@@ -2,32 +2,32 @@
 
 $transitionTime = 0;
 
-$baseURL = 'http://192.168.178.84';
-$user = 'slRGm2VZ7azcmxkRZPzBGTPuGp7bLT801768pLTr';
+$baseURL = 'http://192.168.xx.xx';
+$user = 'YOUR HUE USER ID';
 $scene_name = $argv[1];
 $scene = '';
 
 // Get all Scenes
-echo "Alle Szenen abrufen" . PHP_EOL;
+echo "Get all scenes" . PHP_EOL;
 $scenes = json_decode(file_get_contents($baseURL . '/api/' . $user . '/scenes'));
 
 foreach ($scenes as $scene_id => $single_scene) {
     if ($single_scene->name == $scene_name) {
         $scene = $scene_id;
-        echo "Szenen ID = ". $scene . PHP_EOL;
+        echo "Scene ID = " . $scene . PHP_EOL;
     }
 }
 
 
 // GET Scene
-echo "Szene " . $scene . " abrufen" . PHP_EOL;
+echo "Get scene " . $scene . "" . PHP_EOL;
 $sceneObject = json_decode(file_get_contents($baseURL . '/api/' . $user . '/scenes/' . $scene));
 
 foreach ($sceneObject->lightstates as $lamp => $lightstate) {
 
     //Check if Transition Time is already set
     if (!isset($lightstate->transitiontime)) {
-        echo "Transitiontime für Lampe  " . $lamp . " setzten" . PHP_EOL;
+        echo "Set transitiontime for bulb  " . $lamp . "" . PHP_EOL;
         $lightstate->transitiontime = 0;
 
         $data_string = json_encode($lightstate);
